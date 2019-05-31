@@ -273,7 +273,6 @@ func delegateAddDeviceID(inBytes []byte, deviceID string) ([]byte, error) {
 	}
 	// Inject deviceID
 	rawConfig["deviceID"] = deviceID
-	rawConfig["pciBusID"] = deviceID
 	configBytes, err := json.Marshal(rawConfig)
 	if err != nil {
 		return nil, logging.Errorf("delegateAddDeviceID: failed to re-marshal Spec.Config: %v", err)
@@ -308,7 +307,6 @@ func addDeviceIDInConfList(inBytes []byte, deviceID string) ([]byte, error) {
 	}
 	// Inject deviceID
 	firstPlugin["deviceID"] = deviceID
-	firstPlugin["pciBusID"] = deviceID
 
 	configBytes, err := json.Marshal(rawConfig)
 	if err != nil {
