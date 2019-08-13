@@ -10,14 +10,14 @@ go:
 env:
   global:
     - GO111MODULE=on
-    - REGISTRY_USER=${REGISTRY_USER}
-    - REGISTRY_PASS=${REGISTRY_PASS}
-    - secure: "${REGISTRY_SECURE}"
+    - secure: "u8MlnVCbMgjGi5Ed3vNr6lZkNd3YAMBlpifUS39m3Ud18dO3jafy48K8Z7DkSWRRt+XwqMr+IZ38QDQGv7UNsyFJ6pjEXriH5aczkdt+YECuNJ7JOw0z6BZkZJPAbOgGQnDCiAhdvhYbp0LUV2LXs2DU8FZH61d8H7f3HJwohUACLA0i2suQEyRsjLEWF29r9+0aTQmqnLUJukABuNTXLcEDG9crETpA1fCAJUWOOF0fwyXrAhO9CBdC8sLzXUQziTLTaHVAby402U1JeWin9BYAH2aTMSZ7adTwTCk8Tc1pcAd01TMOsXIF+Q7RPQGCH2w7RM+SS9/Exdpe1EsLw//CWWot/ipvzuwnFPAF9jzxnbD2b6/Ixc8tPRrUwfsIgm0wJKyE/bszZC0TYYeVCwcdynLkcuevSTRMdkvcQikgfvbBO1ZCY+wGWaKPlnZ3rXrg1cyPsg0jKgmJU4VorXI5zMWauT4nihsa50Nqp0IWel9Vgu0S9H3m+2XNZh9GZGu6PjHmP4NpnOgmjKxNfnvFaZB0vPFZUpYG1ELFo0s2Zx3wy/VzAedVHKBddI6htevQIgjvJAqVzgtGmpYg39s8dQrdbJNV4sCw46hHwpOkQXiwY11Q2oEHA4uFNiqECj4ziZttrVw/7GvhpP3LtI6nxewiK8DoNKT2tQdHPWM="
+
   matrix:
     - TARGET=amd64
     - TARGET=ppc64le
 
 before_install:
+  - sudo ls -lathr /etc/kubernetes || true
   - sudo apt-get update -qq
   - go get github.com/mattn/goveralls
 
@@ -92,6 +92,15 @@ deploy:
       docker push nfvpe/multus:latest;
       docker push nfvpe/multus:latest-amd64;
       docker push nfvpe/multus:latest-ppc64le;
+      echo done'
+  - provider: script
+    on:
+      branch: entrypoint-newsleep
+    script: >
+      bash -c '
+      docker tag nfvpe/multus:latest-amd64 nfvpe/multus:testentrypoint;
+      docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS";
+      docker push nfvpe/multus:testentrypoint;
       echo done'
 
 after_success:
