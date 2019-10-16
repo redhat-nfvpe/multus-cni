@@ -77,7 +77,7 @@ type NetworkStatus struct {
 	Mac       string    `json:"mac,omitempty"`
 	Default   bool      `json:"default,omitempty"`
 	DNS       types.DNS `json:"dns,omitempty"`
-	Gateway   []net.IP  `json:"gateway,omitempty"`
+	Gateway   []net.IP  `json:"default-route,omitempty"`
 }
 
 // DelegateNetConf for net-attach-def for pod
@@ -87,7 +87,7 @@ type DelegateNetConf struct {
 	IfnameRequest   string   `json:"ifnameRequest,omitempty"`
 	MacRequest      string   `json:"macRequest,omitempty"`
 	IPRequest       string   `json:"ipRequest,omitempty"`
-	GatewayRequest  []net.IP `json:"gateway,omitempty"`
+	GatewayRequest  []net.IP `json:"default-route,omitempty"`
 	IsFilterGateway bool
 	// MasterPlugin is only used internal housekeeping
 	MasterPlugin bool `json:"-"`
@@ -147,7 +147,7 @@ type NetworkSelectionElement struct {
 	// This will be removed in 4.0 release.
 	ObsolatedInterfaceRequest string `json:"interfaceRequest,omitempty"`
 	// GatewayRequest contains default route IP address for the pod
-	GatewayRequest []net.IP `json:"gateway,omitempty"`
+	GatewayRequest []net.IP `json:"default-route,omitempty"`
 }
 
 // K8sArgs is the valid CNI_ARGS used for Kubernetes

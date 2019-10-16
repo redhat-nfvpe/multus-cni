@@ -26,6 +26,7 @@ import (
 	"github.com/vishvananda/netlink"
 )
 
+// DeleteDefaultGW removes the default gateway from marked interfaces.
 func DeleteDefaultGW(args *skel.CmdArgs, ifName string, res *cnitypes.Result) (*current.Result, error) {
 	logging.Debugf("XXX: DeleteDefaultGW: %s", args.Netns)
 	result, err := current.NewResultFromResult(*res)
